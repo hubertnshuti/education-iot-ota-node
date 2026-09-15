@@ -1,0 +1,29 @@
+menu "OTA Node Configuration"
+
+    config OTA_NODE_WIFI_SSID
+        string "Wi-Fi SSID"
+        default ""
+        help
+            Wi-Fi network name used by the OTA node.
+
+    config OTA_NODE_WIFI_PASSWORD
+        string "Wi-Fi password"
+        default ""
+        help
+            Wi-Fi password used by the OTA node.
+
+    config OTA_NODE_FIRMWARE_URL
+        string "Firmware URL"
+        default ""
+        help
+            URL where the OTA firmware image is hosted.
+
+    config OTA_NODE_AUTO_UPDATE
+        bool "Enable automatic OTA update"
+        default n
+        help
+            Automatically check for and install a newer firmware image
+            after the device connects to Wi-Fi.
+            Keep disabled during development until the OTA server is ready.
+
+endmenu
