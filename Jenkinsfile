@@ -11,7 +11,10 @@ pipeline {
         stage('Build Firmware') {
             steps {
                 powershell '''
-                    # Inject ESP-IDF Python directly into PATH to bypass Jenkins service permission errors
+                    # Tell ESP-IDF exactly where the tools are installed globally
+                    $env:IDF_TOOLS_PATH = "C:\\Espressif\\tools"
+                    
+                    # Ensure the bootstrap Python is available to the Jenkins service
                     $env:PATH = "C:\\Espressif\\tools\\python\\v6.0.1\\venv\\Scripts;" + $env:PATH
                     
                     # Set the IDF path and execute the export script
