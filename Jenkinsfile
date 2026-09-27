@@ -10,9 +10,11 @@ pipeline {
         
         stage('Build Firmware') {
             steps {
-                // Execute in PowerShell to match your local Windows environment
                 powershell '''
-                    # Set the IDF path and execute the export script to load tools
+                    # Inject ESP-IDF Python directly into PATH to bypass Jenkins service permission errors
+                    $env:PATH = "C:\\Espressif\\tools\\python\\v6.0.1\\venv\\Scripts;" + $env:PATH
+                    
+                    # Set the IDF path and execute the export script
                     $env:IDF_PATH = "C:\\esp\\v6.0.1\\esp-idf"
                     . $env:IDF_PATH\\export.ps1
                     
@@ -25,7 +27,6 @@ pipeline {
     
     post {
         success {
-            // If the build succeeds, save the firmware binary so we can download or publish it later
             archiveArtifacts artifacts: 'build/ota_node.bin', fingerprint: true
         }
     }
