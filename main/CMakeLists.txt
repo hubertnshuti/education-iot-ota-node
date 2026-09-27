@@ -1,6 +1,8 @@
 idf_component_register(
     SRCS "ota_node.c"
     INCLUDE_DIRS "."
+    EMBED_TXTFILES
+        "certs/ota-dev-ca.crt"
     REQUIRES
         esp_https_ota
         bootloader_support

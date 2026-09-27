@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include <stdio.h>
 #include <string.h>
 
@@ -15,6 +17,12 @@
 #include "esp_app_desc.h"
 
 static const char *TAG = "OTA_NODE";
+
+extern const uint8_t ota_dev_ca_crt_start[]
+    asm("_binary_ota_dev_ca_crt_start");
+
+extern const uint8_t ota_dev_ca_crt_end[]
+    asm("_binary_ota_dev_ca_crt_end");
 
 #define WIFI_CONNECTED_BIT BIT0
 
@@ -181,8 +189,9 @@ static void ota_check(void)
     );
 
     esp_http_client_config_t http_config = {
-        .url = CONFIG_OTA_NODE_FIRMWARE_URL,
-        .timeout_ms = 10000,
+    .url = CONFIG_OTA_NODE_FIRMWARE_URL,
+    .cert_pem = (const char *)ota_dev_ca_crt_start,
+    .timeout_ms = 10000,
     };
 
     esp_https_ota_config_t ota_config = {
@@ -347,7 +356,7 @@ void app_main(void)
         esp_app_get_description();
 
     ESP_LOGI(TAG, "=================================");
-    ESP_LOGI(TAG, "OTA Node starting");
+    ESP_LOGI(TAG, "OTA Node starting - OTA UPDATE TEST 1.0.2");
     ESP_LOGI(
         TAG,
         "Firmware version: %s",
@@ -385,3 +394,5 @@ void app_main(void)
 
     ota_check();
 }
+
+
