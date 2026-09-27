@@ -15,8 +15,11 @@ pipeline {
                     $env:IDF_PYTHON_ENV_PATH = "C:\\Espressif\\tools\\python\\v6.0.1\\venv"
                     $env:IDF_PATH = "C:\\esp\\v6.0.1\\esp-idf"
                     
-                    . $env:IDF_PATH\\export.ps1
+                    # Install the missing C/C++ tools for the Jenkins environment
+                    . $env:IDF_PATH\\install.ps1
                     
+                    # Now export and build
+                    . $env:IDF_PATH\\export.ps1
                     idf.py build
                 '''
             }
